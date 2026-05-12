@@ -1,0 +1,51 @@
+@font-face {
+    font-family: 'Time';
+    src: url('tall.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'DateText';
+    src: url('datetext.otf') format('opentype');
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+}
+
+body {
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+#time,
+#date {
+    display: block;
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    color: #ffffff;
+}
+
+#time {
+    padding-top: 50px;
+    font-family: 'Time', sans-serif;
+    font-size: 80px;
+    color: #ffffff;
+    line-height: 1;
+}
+
+#date {
+    padding-top: 20px;
+    font-family: 'DateText', sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 700;
+    text-transform: capitalize;
+}

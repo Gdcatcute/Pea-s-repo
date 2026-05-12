@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LockTime26 - iPad Landscape</title>
+    <style>
+        @font-face {
+            font-family: 'TimeFont';
+            src: url('./tall.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'DateFont';
+            src: url('./datetext.otf') format('opentype');
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: visible; 
+            background: transparent;
+        }
+
+        #widget-container {
+            position: absolute;
+            
+            /* Pushed up slightly so the giant clock fits better sideways */
+            top: 60px; 
+            left: 0;
+            
+            /* THE LANDSCAPE FIX: This is the exact physical pixel width of your iPad 4 sideways */
+            width: 1024px; 
+            
+            text-align: center;
+        }
+
+        #date {
+            font-family: 'DateFont', sans-serif !important;
+            font-size: 28px !important;
+            color: #ffffff !important;
+            font-weight: 700;
+            letter-spacing: 1px !important;
+            text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);
+            margin-bottom: -5px !important; 
+            position: relative;
+            z-index: 2;
+        }
+
+        #time {
+            font-family: 'TimeFont', sans-serif !important;
+            font-size: 380px !important; 
+            letter-spacing: -18px !important; 
+            
+            padding-right: 18px !important; 
+            
+            color: #ffffff !important;
+            line-height: 0.85 !important; 
+            text-shadow: 0px 8px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+    <script>
+        var use24Hour = false; 
+        var refreshTimer = null;
+        
+        var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        function onload() {
+            refreshClock();
+        }
+
+        function refreshClock() {
+            var now = new Date();
+            var timeEl = document.getElementById("time");
+            var dateEl = document.getElementById("date");
+            
+            if (timeEl) {
+                timeEl.textContent = formatTime(now, use24Hour);
+            }
+            if (dateEl) {
+                dateEl.textContent = formatDate(now);
+            }
+
+            if (refreshTimer !== null) clearTimeout(refreshTimer);
+            refreshTimer = setTimeout(refreshClock, ((60 - now.getSeconds()) * 1000) - now.getMilliseconds());
+        }
+
+        function formatTime(date, use24Hour) {
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var minutesStr = minutes < 10 ? "0" + minutes : String(minutes);
+
+            if (!use24Hour) {
+                hours = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);
+            }
+            return hours + ":" + minutesStr;
+        }
+
+        function formatDate(date) {
+            return dayNames[date.getDay()] + ", " + date.getDate() + " " + monthNames[date.getMonth()];
+        }
+    </script>
+</head>
+<body onload="onload()">
+    <div id="widget-container">
+        <div id="date"></div>
+        <div id="time"></div>
+    </div>
+</body>
+</html>
